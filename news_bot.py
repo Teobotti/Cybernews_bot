@@ -1,4 +1,4 @@
-TOKEN = "5518157517:AAGds-vbZRJU4W9m4SKUxSQaG3D69hu4GPo"
+TOKEN = ""
 global chat_id 
 
 
