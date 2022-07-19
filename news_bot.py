@@ -2,21 +2,13 @@ TOKEN = "5518157517:AAGds-vbZRJU4W9m4SKUxSQaG3D69hu4GPo"
 global chat_id 
 
 
-#!/usr/bin/env python
-# pylint: disable=unused-argument, wrong-import-position
-# This program is dedicated to the public domain under the CC0 license.
+
+
 # ! pip install beautifulsoup4
 # ! pip install requests
 # ! pip install urllib
 
-"""Simple inline keyboard bot with multiple CallbackQueryHandlers.
-This Bot uses the Application class to handle the bot.
-First, a few callback functions are defined as callback query handler. Then, those functions are
-passed to the Application and registered at their respective places.
-Then, the bot is started and runs until we press Ctrl-C on the command line.
-Usage:
-Example of a bot that uses inline keyboard that has multiple CallbackQueryHandlers arranged in a
-ConversationHandler.
+"""
 Send /start to initiate the conversation.
 Press Ctrl-C on the command line to stop the bot.
 """
@@ -81,7 +73,7 @@ def getlinksRansom(site):
     elif(site==2):
         url = "https://www.redhotcyber.com/post/category/incidenti-ransomware/"
     elif(site==3):
-        url = "https://www.cshub.com/tag/ransomware"
+        url = "https://www.bleepingcomputer.com/tag/ransomware/"
 
 	# define headers
     headers = { 'User-Agent': 'Generic user agent' }
@@ -92,7 +84,7 @@ def getlinksRansom(site):
         soup = BeautifulSoup(page.text, 'html.parser')
     elif(site==3):
         soup = BeautifulSoup(page.text, 'lxml')
-        #print(soup)
+       
 
     links = []
 
@@ -111,24 +103,10 @@ def getlinksRansom(site):
             links.append((i['href']))
 
     elif(site==3):
-        #TODO non trova gli elementi della pagina
-        temp = soup.find("div", attrs={'class' :'my-4 row no-gutters px-3'})
-        #print(temp)
-        temp2 = temp.find('div', attrs={ 'class' : 'col-12 col-lg-8 pr-3 page-content'})
-        #print(temp2)
-        temp3 = temp2.find('div', id='infinite-scroll')
-        print(temp3)
-        temp4 = temp3.find('div')
-        print(temp4)
-
-        productDivs = temp2.findAll('h3', attrs={ 'class" : "article-title'}, limit=2)
-
-        print(productDivs)
-        for div in productDivs: 
-            temp = "https://www.cshub.com" + div.a['href']
-            print(temp)
-            links.append(temp)
-        
+    
+        pops = soup.find_all('h4', limit=2)
+        for i in pops:
+            links.append(i.a['href'])
         
 
         #url = "https://www.cshub.com/tag/ransomware"
@@ -245,40 +223,6 @@ def getlinksData(site):
     return links
 
     
-def findLatestVuln() :
-
-    limit = 240000
-    
-    base_url = "https://exchange.xforce.ibmcloud.com/vulnerabilities/"
-
-
-    # define headers
-    headers = { 'User-Agent': 'Generic user agent' }
-    
-    links=[]
-    
-    while(limit > 0):
-        url = base_url + str(limit)
-        #print(url)
-        page = requests.get(url, headers=headers)
-        soup = BeautifulSoup(page.text, 'lxml')
-        flag = soup.find('meta', {'content': 'IBM X-Force Exchange'}, {'property': 'og:title'})
-        if(flag==None):
-            print("found!")
-            links.append(base_url+str(limit))
-            links.append(base_url+str(limit-1))
-            links.append(base_url+str(limit-2))
-            break
-        limit = limit - 1
-    
-    
-    #print(links)
-
-    return links
-
-    
-
-
 
 
 
@@ -334,7 +278,7 @@ async def one(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int: #selec
     return START_ROUTES
 
 
-
+'''
 def getTweet(num):
     
     if(num == 1):
@@ -356,9 +300,13 @@ def getTweet(num):
 
     print(links)
     return links
+'''
 
-
-
+def sender(links):
+    global chat_id
+    for l in links:
+        url = "https://api.telegram.org/bot5518157517:AAGds-vbZRJU4W9m4SKUxSQaG3D69hu4GPo/sendMessage?chat_id=" + str(chat_id) + "&text=" + l
+        requests.post(url)
 
 async def sendTweetsRans(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     "Sends the articles with a POST request"
@@ -370,22 +318,17 @@ async def sendTweetsData(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     links = getTweet(2)
     sender(links)
     
-def sender(links):
-    global chat_id
-    for l in links:
-        url = "https://api.telegram.org/bot5518157517:AAGds-vbZRJU4W9m4SKUxSQaG3D69hu4GPo/sendMessage?chat_id=" + str(chat_id) + "&text=" + l
-        requests.post(url)
-
 async def pickTweets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     query = update.callback_query
     await query.answer()
     keyboard = [
             [
-              InlineKeyboardButton("Data Breach", callback_data=str(VENTI)),
-              
+              #InlineKeyboardButton("Data Breach", callback_data=str(VENTI)),
+              InlineKeyboardButton("Data Breach", url='https://twitter.com/hashtag/databreach?src=hashtag_click')
             ],
             [
-              InlineKeyboardButton("Ransomware", callback_data=str(VENTUNO))
+              #InlineKeyboardButton("Ransomware", callback_data=str(VENTUNO))
+              InlineKeyboardButton("Ransomware", url='https://twitter.com/search?q=%23Ransomware&src=recent_search_click')
             ],
             [
               InlineKeyboardButton("Close", callback_data=str(TWO))
@@ -399,26 +342,21 @@ async def pickTweets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     
     return START_ROUTES
 
+
 async def sendsiteDataRedHot(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int: #ransomware articles
     "Sends the articles with a POST request"
     links = getlinksData(1)
     sender(links)
     
-    
-
 async def sendsiteDataSecAff(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int: #ransomware articles
     "Sends the articles with a POST request"
     links = getlinksData(2)
     sender(links)
 
-   
-
 async def sendsiteDataInfosec(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int: #ransomware articles
     "Sends the articles with a POST request"
     links = getlinksData(3)
     sender(links)
-
-   
 
 
 async def sendsiteIntelRedHot(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int: #ransomware articles
@@ -432,26 +370,22 @@ async def sendsiteIntelSecAff(update: Update, context: ContextTypes.DEFAULT_TYPE
     links = getlinksIntel(2)
     sender(links)
    
-
 async def sendsiteIntelSecInt(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int: #ransomware articles
     "Sends the articles with a POST request"
     links = getlinksIntel(3)
     sender(links)
    
 
-
 async def sendsiteRansomC360(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int: #ransomware articles
     "Sends the articles with a POST request"
     links = getlinksRansom(1)
     sender(links)
    
-
 async def sendsiteRansomRedHot(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int: #ransomware articles
     "Sends the articles with a POST request"
     links = getlinksRansom(2)
     sender(links)
     
-
 async def sendsiteRansomCShub(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int: #ransomware articles
     "Sends the articles with a POST request"
     
@@ -465,7 +399,6 @@ async def sendsiteItalyRedHot(update: Update, context: ContextTypes.DEFAULT_TYPE
     links = getlinksItaly(1)
     sender(links)
     
-
 async def sendsiteItalyC360(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int: #ransomware articles
     "Sends the articles with a POST request"
     
@@ -481,11 +414,11 @@ async def picksiteRansom(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     await query.answer()
     keyboard = [
             [
-              InlineKeyboardButton("Cyber360 ", callback_data=str(SEVEN)),
-              InlineKeyboardButton("RedHotCyber ", callback_data=str(EIGHT))
+              InlineKeyboardButton("Cyber360", callback_data=str(SEVEN)),
+              InlineKeyboardButton("RedHotCyber", callback_data=str(EIGHT))
             ],
             [
-               InlineKeyboardButton("TODO_CyberSecurityHub ", callback_data=str(NINE))
+               InlineKeyboardButton("BleepingComputer", callback_data=str(NINE))
             ],
 
             [
@@ -515,7 +448,7 @@ async def picksiteData(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
             ],
             [
                InlineKeyboardButton("InfoSec Magazine", callback_data=str(DICIOTT)),
-               #InlineKeyboardButton("corrierecomunicazioni", url="https://www.corrierecomunicazioni.it/tag/cybercrime/")
+               
             ],
 
             [
