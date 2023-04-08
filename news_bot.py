@@ -305,7 +305,7 @@ def getTweet(num):
 def sender(links):
     global chat_id
     for l in links:
-        url = "https://api.telegram.org/bot5518157517:AAGds-vbZRJU4W9m4SKUxSQaG3D69hu4GPo/sendMessage?chat_id=" + str(chat_id) + "&text=" + l
+        url = "https://api.telegram.org/bot" + TOKEN + "/sendMessage?chat_id=" + str(chat_id) + "&text=" + l
         requests.post(url)
 
 async def sendTweetsRans(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
