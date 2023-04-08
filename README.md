@@ -9,11 +9,11 @@ Just start the bot with */start* command!
 You can choose various topics like Ransomware, Databreach, Latest Italy news and Intelligence.
 The bot will send you the two latest news regarding the topic.
 
-If you plan to deploy and start a new bot by your own, just [create a new bot by talking to Botfather](https://t.me/botfather) and then just change the *bot token* in your code. 
+If you plan to deploy and start a new bot by your own, just [create a new bot by talking to Botfather](https://t.me/botfather) and then change the *bot token* in your code. 
 
 ## How it works?
-This news-bot is deployed with telegram bot api. BeautifulSoup scraps the web pages and finds the 2 latest news from the newspaper selected.
-It can be easily customized changing the websites you want to scrap. Just modify the *getlinks()* functions.
+This news-bot is deployed with telegram bot api. The web pages are scraped and  the 2 latest news from the newspaper are provided.
+It can be easily customized changing the websites you want to scrap and the amount of news you want by modifing the *getlinks()* functions.
 
 ## Newspapers and Topics
 
