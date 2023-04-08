@@ -22,7 +22,7 @@ Add the bot to your cyber groups and let your friends keep updated!
 
 
 ## How it works?
-This news-bot is deployed with telegram bot api. The web pages are scraped and  the 2 latest news from the newspaper are provided.
+This news-bot is deployed with [telegram bot api](https://docs.python-telegram-bot.org/en/stable/). The web pages are scraped and  the 2 latest news from the newspaper are provided.
 It can be easily customized changing the websites you want to scrap and the amount of news you want by modifing the *getlinks()* functions.
 
 ## Newspapers and Topics
