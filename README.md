@@ -8,7 +8,7 @@ Deploy and start a new bot by your own in few steps:
 
 1- [create a new bot by talking to Botfather](https://t.me/botfather)
 
-2-  change the *bot token* in your code. 
+2- change the *bot token* represented by the variable TOKEN in the code 
 
 3- Run the python script on a device connected to the internet (python 3.8+ is required, as well as all the necessary libraries)
 
