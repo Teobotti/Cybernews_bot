@@ -4,12 +4,20 @@ A telegram bot for latest cyber news (Italian and english language)
 # Discover the latest cyber news!
 
 ## Easy to use
+Deploy and start a new bot by your own in few steps:
 
-Just start the bot with */start* command!
+1- [create a new bot by talking to Botfather](https://t.me/botfather)
+
+2-  change the *bot token* in your code. 
+
+3- Run the python script on a device connected to the internet (python 3.8+ is required, as well as all the necessary libraries)
+
+Now that the bot is running, just start the bot with */start* command!
+
 You can choose various topics like Ransomware, Databreach, Latest Italy news and Intelligence.
 The bot will send you the two latest news regarding the topic.
 
-If you plan to deploy and start a new bot by your own, just [create a new bot by talking to Botfather](https://t.me/botfather) and then change the *bot token* in your code. 
+
 
 ## How it works?
 This news-bot is deployed with telegram bot api. The web pages are scraped and  the 2 latest news from the newspaper are provided.
