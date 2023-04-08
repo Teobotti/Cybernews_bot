@@ -17,6 +17,8 @@ Now that the bot is running, just start the bot with */start* command!
 You can choose various topics like Ransomware, Databreach, Latest Italy news and Intelligence.
 The bot will send you the two latest news regarding the topic.
 
+Add the bot to your cyber groups and let your friends keep updated!
+
 
 
 ## How it works?
